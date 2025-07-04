@@ -1,83 +1,48 @@
-export class CreateUserDto {}
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
-import { Exclude } from 'class-transformer';
-import { Role } from '../../../models/mysql/role.entity';
-// Importa otras entidades relacionadas si las usas en este archivo
-// import { Route } from './route.entity';
-// import { PersonalizedMessage } from './personalized-message.entity';
-// import { UserSession } from './user-session.entity';
-// import { UserPhone } from './user-phone.entity';
-// import { UserActivity } from './user-activity.entity';
+// src/modules/user/dto/create-user.dto.ts
+import { 
+  IsString, 
+  IsEmail, 
+  IsOptional, 
+  IsEnum, 
+  IsDateString, 
+  MaxLength, 
+  MinLength,
+  IsPhoneNumber,
+  IsInt,
+  IsPositive
+} from 'class-validator';
 
-@Entity('usuarios')
-@Index(['id_rol'])
-export class User {
-  @PrimaryGeneratedColumn()
-  id_usuario: number;
-
-  @Column({ type: 'varchar', length: 100, comment: 'Nombres del usuario' })
+export class CreateUserDto {
+  @IsString()
+  @MaxLength(100)
   nombres: string;
 
-  @Column({ type: 'varchar', length: 100, comment: 'Apellidos del usuario' })
+  @IsString()
+  @MaxLength(100)
   apellidos: string;
 
-  @Column({ type: 'varchar', length: 150, unique: true, comment: 'Email único' })
+  @IsEmail()
+  @MaxLength(150)
   email: string;
 
-  @Column({ type: 'varchar', length: 255, comment: 'Contraseña hasheada' })
-  @Exclude()
+  @IsString()
+  @MinLength(6)
+  @MaxLength(255)
   password: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: true, comment: 'Teléfono principal' })
-  telefono: string;
+  @IsOptional()
+  @IsPhoneNumber('EC') // Código de país para Ecuador
+  telefono?: string;
 
-  @Column({ type: 'date', nullable: true, comment: 'Fecha de nacimiento' })
-  fecha_nacimiento: Date;
+  @IsOptional()
+  @IsDateString()
+  fecha_nacimiento?: string;
 
-  @Column({ type: 'int', comment: 'ID del rol asignado' })
+  @IsInt()
+  @IsPositive()
   id_rol: number;
 
-  @Column({ type: 'enum', enum: ['activo', 'inactivo', 'suspendido'], default: 'activo' })
-  estado: 'activo' | 'inactivo' | 'suspendido';
-
-  @CreateDateColumn({ type: 'timestamp' })
-  fecha_registro: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  fecha_actualizacion: Date;
-
-  @Column({ type: 'timestamp', nullable: true, comment: 'Último acceso al sistema' }) // Asegúrate de que sea nullable: true
-  ultimo_acceso: Date;
-
-  @Column({ type: 'varchar', length: 24, nullable: true, comment: 'ID perfil MongoDB' })
-  profile_mongo_id: string;
-
-  // Relaciones
-  @ManyToOne(() => Role, role => role.users, { onDelete: 'RESTRICT' })
-  @JoinColumn({ name: 'id_rol' })
-  role: Role;
-
-  // Otras relaciones OneToMany si las necesitas en el contexto del usuario
-  // @OneToMany(() => Route, route => route.creator)
-  // created_routes: Route[];
-
-  // @OneToMany(() => PersonalizedMessage, message => message.creator)
-  // created_messages: PersonalizedMessage[];
-
-  // @OneToMany(() => UserSession, session => session.user)
-  // sessions: UserSession[];
-
-  // @OneToMany(() => UserPhone, phone => phone.user)
-  // phones: UserPhone[];
-
-  // @OneToMany(() => UserActivity, activity => activity.user)
-  // activities: UserActivity[];
-
-  get fullName(): string {
-    return `${this.nombres} ${this.apellidos}`;
-  }
-
-  get isActive(): boolean {
-    return this.estado === 'activo';
-  }
+  @IsOptional()
+  @IsEnum(['activo', 'inactivo', 'suspendido'])
+  estado?: 'activo' | 'inactivo' | 'suspendido';
 }
