@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDa
 import { User } from './user.entity';
 
 @Entity('usuarios_actividad')
-@Index(['id_usuario', 'fecha_actividad'])
 @Index(['tipo_actividad'])
 export class UserActivity {
   @PrimaryGeneratedColumn()

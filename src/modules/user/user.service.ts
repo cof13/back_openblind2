@@ -1,10 +1,11 @@
-// src/modules/user/user.service.ts
+// src/modules/user/user.service.ts (Con mejor manejo de errores)
 import { 
   Injectable, 
   NotFoundException, 
   ConflictException, 
   BadRequestException,
-  UnauthorizedException 
+  UnauthorizedException,
+  Logger 
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -20,6 +21,8 @@ import { UserProfile } from '../../models/mongodb/user-profile.schema';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -27,9 +30,13 @@ export class UserService {
     private readonly roleRepository: Repository<Role>,
     @InjectModel(UserProfile.name)
     private readonly userProfileModel: Model<UserProfile>,
-  ) {}
+  ) {
+    this.logger.log('✅ UserService inicializado correctamente');
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    this.logger.log(`🔄 Creando usuario: ${createUserDto.email}`);
+    
     // Verificar si el email ya existe
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email }
@@ -68,7 +75,9 @@ export class UserService {
     const user = this.userRepository.create(userData);
     const savedUser = await this.userRepository.save(user);
 
-    // Crear perfil en MongoDB
+    this.logger.log(`✅ Usuario creado en MySQL: ${savedUser.id_usuario}`);
+
+    // Intentar crear perfil en MongoDB
     try {
       const userProfile = new this.userProfileModel({
         user_id: savedUser.id_usuario,
@@ -101,14 +110,16 @@ export class UserService {
       });
 
       const savedProfile = await userProfile.save();
+      this.logger.log(`✅ Perfil creado en MongoDB: ${savedProfile._id}`);
 
       // Actualizar el usuario con el ID del perfil de MongoDB
       savedUser.profile_mongo_id = savedProfile._id.toString();
       await this.userRepository.save(savedUser);
+
     } catch (error) {
-      // Si falla la creación del perfil, eliminar el usuario para mantener consistencia
-      await this.userRepository.remove(savedUser);
-      throw new BadRequestException('Error al crear el perfil de usuario');
+      this.logger.error(`❌ Error al crear perfil MongoDB: ${error.message}`);
+      // NO eliminar el usuario si falla MongoDB - continuar sin perfil
+      this.logger.warn(`⚠️  Usuario creado sin perfil MongoDB: ${savedUser.id_usuario}`);
     }
 
     // Retornar usuario sin la contraseña
@@ -278,17 +289,19 @@ export class UserService {
   async remove(id: number): Promise<void> {
     const user = await this.findOne(id);
 
-    // Eliminar perfil de MongoDB si existe
+    // Intentar eliminar perfil de MongoDB si existe
     if (user.profile_mongo_id) {
       try {
         await this.userProfileModel.findByIdAndDelete(user.profile_mongo_id);
+        this.logger.log(`✅ Perfil MongoDB eliminado: ${user.profile_mongo_id}`);
       } catch (error) {
-        console.warn(`No se pudo eliminar el perfil de MongoDB: ${error.message}`);
+        this.logger.warn(`⚠️  No se pudo eliminar el perfil de MongoDB: ${error.message}`);
       }
     }
 
     // Eliminar usuario de MySQL
     await this.userRepository.delete(id);
+    this.logger.log(`✅ Usuario eliminado: ${id}`);
   }
 
   async updateLastAccess(id: number): Promise<void> {
@@ -325,19 +338,70 @@ export class UserService {
     const user = await this.findOne(userId);
     
     if (!user.profile_mongo_id) {
-      throw new NotFoundException('Perfil de usuario no encontrado');
+      // Si no hay perfil, crear uno nuevo
+      try {
+        const userProfile = new this.userProfileModel({
+          user_id: userId,
+          preferencias: {
+            idioma: 'es',
+            velocidad_audio: 'normal',
+            notificaciones: true,
+            modo_contraste: 'normal',
+            volumen_default: 70,
+            autoplay_mensajes: true
+          },
+          configuracion_accesibilidad: {
+            tamaño_fuente: 'normal',
+            alto_contraste: false,
+            lector_pantalla: false,
+            vibracion_activada: true,
+            audio_navegacion: true,
+            señales_tacticas: false
+          },
+          estadisticas_uso: {
+            total_rutas_utilizadas: 0,
+            tiempo_total_navegacion: 0,
+            distancia_total_recorrida: 0,
+            ultimo_uso: new Date(),
+            sesiones_totales: 0,
+            promedio_tiempo_sesion: 0,
+            rutas_completadas: 0,
+            mensajes_escuchados: 0
+          }
+        });
+
+        const savedProfile = await userProfile.save();
+        
+        // Actualizar el usuario con el ID del perfil
+        await this.userRepository.update(userId, { 
+          profile_mongo_id: savedProfile._id.toString() 
+        });
+
+        return {
+          user: user,
+          profile: savedProfile
+        };
+      } catch (error) {
+        this.logger.error(`❌ Error al crear perfil: ${error.message}`);
+        throw new BadRequestException('Error al crear el perfil de usuario');
+      }
     }
 
-    const profile = await this.userProfileModel.findById(user.profile_mongo_id);
-    
-    if (!profile) {
-      throw new NotFoundException('Perfil de usuario no encontrado en MongoDB');
-    }
+    try {
+      const profile = await this.userProfileModel.findById(user.profile_mongo_id);
+      
+      if (!profile) {
+        throw new NotFoundException('Perfil de usuario no encontrado en MongoDB');
+      }
 
-    return {
-      user: user,
-      profile: profile
-    };
+      return {
+        user: user,
+        profile: profile
+      };
+    } catch (error) {
+      this.logger.error(`❌ Error al obtener perfil: ${error.message}`);
+      throw new NotFoundException('Error al obtener el perfil de usuario');
+    }
   }
 
   async updateUserProfile(userId: number, profileData: any) {
@@ -347,17 +411,22 @@ export class UserService {
       throw new NotFoundException('Perfil de usuario no encontrado');
     }
 
-    const updatedProfile = await this.userProfileModel.findByIdAndUpdate(
-      user.profile_mongo_id,
-      profileData,
-      { new: true }
-    );
+    try {
+      const updatedProfile = await this.userProfileModel.findByIdAndUpdate(
+        user.profile_mongo_id,
+        profileData,
+        { new: true }
+      );
 
-    if (!updatedProfile) {
-      throw new NotFoundException('Perfil de usuario no encontrado en MongoDB');
+      if (!updatedProfile) {
+        throw new NotFoundException('Perfil de usuario no encontrado en MongoDB');
+      }
+
+      return updatedProfile;
+    } catch (error) {
+      this.logger.error(`❌ Error al actualizar perfil: ${error.message}`);
+      throw new BadRequestException('Error al actualizar el perfil de usuario');
     }
-
-    return updatedProfile;
   }
 
   async findWithPagination(page: number = 1, limit: number = 10, search?: string) {

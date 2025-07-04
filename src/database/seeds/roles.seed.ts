@@ -1,5 +1,7 @@
+// src/database/seeds/roles.seed.ts (Corregido)
 import { DataSource } from 'typeorm';
 import { Role } from '../../models/mysql/role.entity';
+import { User } from '../../models/mysql/user.entity';
 import { keys } from '../../config/keys';
 
 const rolesData = [
@@ -41,6 +43,8 @@ const rolesData = [
 ];
 
 async function seedRoles() {
+  console.log('🚀 Iniciando seed de roles...');
+  
   const dataSource = new DataSource({
     type: 'mysql',
     host: keys.MYSQL_HOST,
@@ -48,24 +52,34 @@ async function seedRoles() {
     username: keys.MYSQL_USERNAME,
     password: keys.MYSQL_PASSWORD,
     database: keys.MYSQL_DATABASE,
-    entities: [Role],
+    entities: [Role, User], // Incluir ambas entidades para evitar errores de relación
     synchronize: false,
+    logging: false,
   });
 
   try {
     await dataSource.initialize();
-    console.log('📦 Conexión a la base de datos establecida');
+    console.log('✅ Conexión a MySQL establecida');
 
     const roleRepository = dataSource.getRepository(Role);
 
     // Verificar si ya existen roles
     const existingRoles = await roleRepository.count();
     if (existingRoles > 0) {
-      console.log('⚠️  Los roles ya existen en la base de datos');
+      console.log(`⚠️  Ya existen ${existingRoles} roles en la base de datos`);
+      
+      // Mostrar roles existentes
+      const currentRoles = await roleRepository.find();
+      console.log('\n📋 Roles existentes:');
+      currentRoles.forEach((role, index) => {
+        console.log(`  ${index + 1}. ID: ${role.id_rol} - ${role.nombre_rol} (${role.estado})`);
+      });
+      
       return;
     }
 
-    // Insertar roles
+    // Crear roles
+    console.log('📝 Creando roles...');
     for (const roleData of rolesData) {
       const existingRole = await roleRepository.findOne({
         where: { nombre_rol: roleData.nombre_rol }
@@ -73,27 +87,56 @@ async function seedRoles() {
 
       if (!existingRole) {
         const role = roleRepository.create(roleData);
-        await roleRepository.save(role);
-        console.log(`✅ Rol creado: ${roleData.nombre_rol}`);
+        const savedRole = await roleRepository.save(role);
+        console.log(`  ✅ ${roleData.nombre_rol} creado con ID: ${savedRole.id_rol}`);
       } else {
-        console.log(`⏭️  Rol ya existe: ${roleData.nombre_rol}`);
+        console.log(`  ⏭️  ${roleData.nombre_rol} ya existe`);
       }
     }
 
-    console.log('🎉 Seed de roles completado exitosamente');
+    console.log('\n🎉 Seed de roles completado exitosamente!');
+    
+    // Mostrar resumen final
+    const allRoles = await roleRepository.find();
+    console.log('\n📋 Resumen de roles en la base de datos:');
+    allRoles.forEach((role) => {
+      console.log(`  ID: ${role.id_rol} - ${role.nombre_rol} (${role.estado})`);
+    });
+
   } catch (error) {
-    console.error('❌ Error en seed de roles:', error);
+    console.error('❌ Error en seed de roles:', error.message);
+    
+    if (error.code === 'ER_ACCESS_DENIED_ERROR') {
+      console.error('💡 Verifica las credenciales de MySQL en tu archivo .env');
+    } else if (error.code === 'ER_BAD_DB_ERROR') {
+      console.error('💡 La base de datos no existe. Créala primero:');
+      console.error('   mysql -u root -p');
+      console.error('   CREATE DATABASE openblind;');
+    } else if (error.code === 'ECONNREFUSED') {
+      console.error('💡 MySQL no está ejecutándose. Inicia el servicio MySQL');
+    } else if (error.code === 'ER_NO_SUCH_TABLE') {
+      console.error('💡 La tabla roles no existe. Ejecuta primero la aplicación para crear las tablas');
+      console.error('   npm run start:dev');
+    }
+    
     throw error;
   } finally {
     await dataSource.destroy();
+    console.log('🔌 Conexión cerrada');
   }
 }
 
 // Ejecutar si es llamado directamente
 if (require.main === module) {
   seedRoles()
-    .then(() => process.exit(0))
-    .catch(() => process.exit(1));
+    .then(() => {
+      console.log('✅ Proceso completado exitosamente');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('❌ Error:', error.message);
+      process.exit(1);
+    });
 }
 
 export { seedRoles };

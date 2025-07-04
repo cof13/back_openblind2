@@ -1,3 +1,4 @@
+// src/modules/user/user.module.ts (Versión corregida)
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -9,13 +10,16 @@ import { UserProfile, UserProfileSchema } from '../../models/mongodb/user-profil
 
 @Module({
   imports: [
+    // TypeORM para entidades MySQL
     TypeOrmModule.forFeature([User, Role]),
+    
+    // Mongoose para esquemas MongoDB - SIN especificar conexión
     MongooseModule.forFeature([
       { name: UserProfile.name, schema: UserProfileSchema }
-    ])
+    ]),
   ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService], // Exportar para usar en otros módulos (ej: auth)
+  exports: [UserService],
 })
 export class UserModule {}
