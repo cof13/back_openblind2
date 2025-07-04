@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'station_details', timestamps: true, versionKey: false })
 export class StationDetails extends Document {
@@ -63,6 +63,8 @@ export class StationDetails extends Document {
     sabados: { apertura: string; cierre: string };
     domingos: { apertura: string; cierre: string };
   };
+
+  _id: Types.ObjectId = new Types.ObjectId();
 }
 
 export const StationDetailsSchema = SchemaFactory.createForClass(StationDetails);

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'voice_guides', timestamps: true, versionKey: false })
 export class VoiceGuide extends Document {
@@ -50,6 +50,9 @@ export class VoiceGuide extends Document {
     tiempo_promedio_escucha: number;
     usuarios_unicos: number;
   };
+
+  // Inicializador para _id
+  _id: Types.ObjectId = new Types.ObjectId(); // Esto es solo un ejemplo
 }
 
 export const VoiceGuideSchema = SchemaFactory.createForClass(VoiceGuide);

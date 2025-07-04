@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+
 
 @Schema({ collection: 'route_details', timestamps: true, versionKey: false })
 export class RouteDetails extends Document {
@@ -89,6 +90,8 @@ export class RouteDetails extends Document {
     comentarios_recientes: number;
     popularidad_score: number;
   };
+
+  _id: Types.ObjectId = new Types.ObjectId();
 }
 
 export const RouteDetailsSchema = SchemaFactory.createForClass(RouteDetails);

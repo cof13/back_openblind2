@@ -14,6 +14,10 @@ import { RoleModule } from './modules/role/role.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { VoiceGuideModule } from './modules/voice-guide/voice-guide.module';
+import { RouteModule } from './modules/rute/rute.module';
+import { StationModule } from './modules/station/station.module';
+import { TransportModule } from './modules/transport/transport.module';
 
 @Module({
   imports: [
@@ -53,6 +57,10 @@ import { AuthModule } from './modules/auth/auth.module';
     UserModule,
     RoleModule,
     AuthModule,
+    VoiceGuideModule,
+    RouteModule,
+    StationModule,
+    TransportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
