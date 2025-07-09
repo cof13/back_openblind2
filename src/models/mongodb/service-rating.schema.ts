@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'service_ratings', timestamps: true, versionKey: false })
 export class ServiceRating extends Document {
   @Prop({ required: true, index: true })
   servicio: string;
+
+   declare _id: Types.ObjectId;
 
   @Prop({ required: true, index: true })
   categoria: string;

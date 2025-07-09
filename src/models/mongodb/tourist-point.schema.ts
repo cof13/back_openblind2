@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'tourist_points', timestamps: true, versionKey: false })
 export class TouristPoint extends Document {
@@ -26,6 +26,8 @@ export class TouristPoint extends Document {
 
   @Prop({ type: [String], default: [] })
   imagenes: string[];
+
+   declare _id: Types.ObjectId;
 
   @Prop({
     type: {

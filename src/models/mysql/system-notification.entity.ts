@@ -9,7 +9,8 @@ export class SystemNotification {
   id_notificacion: number;
 
   @Column({ type: 'int', nullable: true, comment: 'null = notificación global' })
-  id_usuario_destinatario: number;
+  id_usuario_destinatario: number | null;
+
 
   @Column({ type: 'varchar', length: 200 })
   titulo_notificacion: string;

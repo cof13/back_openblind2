@@ -18,6 +18,10 @@ import { VoiceGuideModule } from './modules/voice-guide/voice-guide.module';
 import { RouteModule } from './modules/rute/rute.module';
 import { StationModule } from './modules/station/station.module';
 import { TransportModule } from './modules/transport/transport.module';
+import { PersonalizedMessageModule } from './modules/personalized-message/personalized-message.module';
+import { TouristPointModule } from './modules/tourist-point/tourist-point.module';
+import { ServiceRatingModule } from './modules/service-rating/service-rating.module';
+import { SystemNotificationModule } from './modules/system-notification/system-notification.module';
 
 @Module({
   imports: [
@@ -61,6 +65,10 @@ import { TransportModule } from './modules/transport/transport.module';
     RouteModule,
     StationModule,
     TransportModule,
+    PersonalizedMessageModule,
+    TouristPointModule,
+    ServiceRatingModule,
+    SystemNotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

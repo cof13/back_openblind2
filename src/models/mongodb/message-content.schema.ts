@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'message_contents', timestamps: true, versionKey: false })
 export class MessageContent extends Document {
@@ -8,6 +8,8 @@ export class MessageContent extends Document {
 
   @Prop({ required: true, maxlength: 1000 })
   mensaje: string;
+
+   declare _id: Types.ObjectId;
 
   @Prop({
     type: [{
