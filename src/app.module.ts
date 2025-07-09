@@ -9,19 +9,19 @@ import { LoggerModule } from './config/logger.module';
 // (TypeORM las cargará automáticamente)
 
 // Importar módulos de funcionalidad
-import { UserModule } from './modules/user/user.module';
-import { RoleModule } from './modules/role/role.module';
+import { UserModule } from './modules/user.module';
+import { RoleModule } from './modules/role.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './modules/auth/auth.module';
-import { VoiceGuideModule } from './modules/voice-guide/voice-guide.module';
-import { RouteModule } from './modules/rute/rute.module';
-import { StationModule } from './modules/station/station.module';
-import { TransportModule } from './modules/transport/transport.module';
-import { PersonalizedMessageModule } from './modules/personalized-message/personalized-message.module';
-import { TouristPointModule } from './modules/tourist-point/tourist-point.module';
-import { ServiceRatingModule } from './modules/service-rating/service-rating.module';
-import { SystemNotificationModule } from './modules/system-notification/system-notification.module';
+import { AuthModule } from './auth/auth.module';
+import { VoiceGuideModule } from './modules/voice-guide.module';
+import { RouteModule } from './modules/rute.module';
+import { StationModule } from './modules/station.module';
+import { TransportModule } from './modules/transport.module';
+import { PersonalizedMessageModule } from './modules/personalized-message.module';
+import { TouristPointModule } from './modules/tourist-point.module';
+import { ServiceRatingModule } from './modules/service-rating.module';
+import { SystemNotificationModule } from './modules/system-notification.module';
 
 @Module({
   imports: [
