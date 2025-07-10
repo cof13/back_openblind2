@@ -29,14 +29,23 @@ import { User } from '../models/mysql/user.entity';
 import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Puntos Turísticos')
-@Controller('tourist-points')
+@Controller('tourist-points') // 🔗 RUTA BASE: '/tourist-points' - TODAS LAS RUTAS AGRUPADAS BAJO ESTA BASE
 @UseInterceptors(ClassSerializerInterceptor)
 export class TouristPointController {
   constructor(private readonly touristPointService: TouristPointService) {}
 
+  // ========================================
+  // 📝 OPERACIONES CRUD BÁSICAS - GRUPO 1: RUTAS ESTÁNDAR
+  // ========================================
+
+  /**
+   * 🆕 CREAR - POST /tourist-points
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos JWT + RolesGuard para usuarios registrados
+   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para usuarios registrados
   @Roles('Super Administrador', 'Administrador', 'Editor', 'Usuario Premium', 'Usuario Estándar')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear nuevo punto turístico' })
@@ -49,24 +58,44 @@ export class TouristPointController {
     return this.touristPointService.create(createTouristPointDto);
   }
 
+  /**
+   * 📋 LEER TODOS - GET /tourist-points
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get()
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener todos los puntos turísticos con filtros' })
   @ApiResponse({ status: 200, description: 'Lista de puntos turísticos' })
   findAll(@Query() queryDto: QueryTouristPointDto) {
     return this.touristPointService.findAll(queryDto);
   }
 
+  // ========================================
+  // 🔍 RUTAS ESPECIALIZADAS - GRUPO 2: CONSULTAS ESPECÍFICAS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * ✅ PUNTOS ACTIVOS - GET /tourist-points/active
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get('active')
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener solo puntos turísticos activos' })
   @ApiResponse({ status: 200, description: 'Lista de puntos turísticos activos' })
   findActivePoints() {
     return this.touristPointService.findActivePoints();
   }
 
+  /**
+   * 📊 ESTADÍSTICAS - GET /tourist-points/statistics
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos para administradores
+   */
   @Get('statistics')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener estadísticas de puntos turísticos' })
@@ -75,16 +104,57 @@ export class TouristPointController {
     return this.touristPointService.getTouristPointStatistics();
   }
 
+  /**
+   * ⭐ MEJOR CALIFICADOS - GET /tourist-points/top-rated
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
+  @Get('top-rated')
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
+  @ApiOperation({ summary: 'Obtener puntos turísticos mejor calificados' })
+  @ApiResponse({ status: 200, description: 'Puntos turísticos mejor calificados' })
+  findTopRated(@Query('limit', ParseIntPipe) limit?: number) {
+    return this.touristPointService.findTopRated(limit);
+  }
+
+  /**
+   * 🔍 BÚSQUEDA - GET /tourist-points/search
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
+  @Get('search')
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
+  @ApiOperation({ summary: 'Buscar puntos turísticos por término y/o categoría' })
+  @ApiResponse({ status: 200, description: 'Puntos turísticos encontrados' })
+  searchPoints(@Query() queryDto: QueryTouristPointDto) {
+    return this.touristPointService.findAll(queryDto);
+  }
+
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS ESPECÍFICOS - GRUPO 3: CONSULTAS CON PARÁMETROS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * 📂 POR CATEGORÍA - GET /tourist-points/category/:category
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get('category/:category')
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener puntos turísticos por categoría' })
   @ApiResponse({ status: 200, description: 'Puntos turísticos de la categoría especificada' })
   findByCategory(@Param('category') category: string) {
     return this.touristPointService.findByCategory(category);
   }
 
+  /**
+   * 📍 PUNTOS CERCANOS - GET /tourist-points/nearby/:lat/:lng
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get('nearby/:lat/:lng')
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener puntos turísticos cercanos a una ubicación' })
   @ApiResponse({ status: 200, description: 'Puntos turísticos cercanos' })
   findNearby(
@@ -95,24 +165,18 @@ export class TouristPointController {
     return this.touristPointService.findNearby(lat, lng, radius);
   }
 
-  @Get('top-rated')
-  @Public()
-  @ApiOperation({ summary: 'Obtener puntos turísticos mejor calificados' })
-  @ApiResponse({ status: 200, description: 'Puntos turísticos mejor calificados' })
-  findTopRated(@Query('limit', ParseIntPipe) limit?: number) {
-    return this.touristPointService.findTopRated(limit);
-  }
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS ID - GRUPO 4: OPERACIONES POR ID
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN DESPUÉS de todas las rutas específicas
+  // ========================================
 
-  @Get('search')
-  @Public()
-  @ApiOperation({ summary: 'Buscar puntos turísticos por término y/o categoría' })
-  @ApiResponse({ status: 200, description: 'Puntos turísticos encontrados' })
-  searchPoints(@Query() queryDto: QueryTouristPointDto) {
-    return this.touristPointService.findAll(queryDto);
-  }
-
+  /**
+   * 🔍 LEER UNO - GET /tourist-points/:id
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get(':id')
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener punto turístico por ID' })
   @ApiResponse({ status: 200, description: 'Punto turístico encontrado' })
   @ApiResponse({ status: 404, description: 'Punto turístico no encontrado' })
@@ -120,16 +184,30 @@ export class TouristPointController {
     return this.touristPointService.findOne(id);
   }
 
+  /**
+   * 🔎 DETALLES COMPLETOS - GET /tourist-points/:id/details
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: @Public() - acceso completamente público
+   */
   @Get(':id/details')
-  @Public()
+  @Public() // 🔓 SEPARACIÓN: Acceso público sin autenticación
   @ApiOperation({ summary: 'Obtener punto turístico con detalles completos (MongoDB)' })
   @ApiResponse({ status: 200, description: 'Punto turístico con detalles completos' })
   findOneWithDetails(@Param('id', ParseIntPipe) id: number) {
     return this.touristPointService.findOneWithDetails(id);
   }
 
+  // ========================================
+  // 📝 OPERACIONES DE INTERACCIÓN - GRUPO 5: RESEÑAS Y COMENTARIOS
+  // ========================================
+
+  /**
+   * ⭐ AGREGAR RESEÑA - POST /tourist-points/:id/reviews
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guard específico JWT para usuarios autenticados
+   */
   @Post(':id/reviews')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard) // 🔐 SEPARACIÓN: Guard específico para usuarios autenticados
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Agregar reseña a un punto turístico' })
   @ApiResponse({ status: 201, description: 'Reseña agregada exitosamente' })
@@ -141,8 +219,17 @@ export class TouristPointController {
     return this.touristPointService.addReview(id, user.id_usuario, addReviewDto);
   }
 
+  // ========================================
+  // ✏️ OPERACIONES DE ACTUALIZACIÓN - GRUPO 6: RUTAS PATCH
+  // ========================================
+
+  /**
+   * ✏️ ACTUALIZAR - PATCH /tourist-points/:id
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos para roles de edición
+   */
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para editores
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar punto turístico' })
@@ -154,8 +241,13 @@ export class TouristPointController {
     return this.touristPointService.update(id, updateTouristPointDto);
   }
 
+  /**
+   * ✅ APROBAR - PATCH /tourist-points/:id/approve
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos para roles de moderación
+   */
   @Patch(':id/approve')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para moderadores
   @Roles('Super Administrador', 'Administrador', 'Moderador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Aprobar punto turístico pendiente' })
@@ -164,8 +256,13 @@ export class TouristPointController {
     return this.touristPointService.approve(id);
   }
 
+  /**
+   * ❌ RECHAZAR - PATCH /tourist-points/:id/reject
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos para roles de moderación
+   */
   @Patch(':id/reject')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para moderadores
   @Roles('Super Administrador', 'Administrador', 'Moderador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Rechazar punto turístico pendiente' })
@@ -174,9 +271,18 @@ export class TouristPointController {
     return this.touristPointService.reject(id);
   }
 
+  // ========================================
+  // 🗑️ OPERACIONES DE ELIMINACIÓN - GRUPO 7: RUTAS DELETE
+  // ========================================
+
+  /**
+   * 🗑️ ELIMINAR - DELETE /tourist-points/:id
+   * AGRUPADA: Hereda la ruta base del controlador
+   * SEPARADA: Guards específicos para roles administrativos
+   */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard) // 🔐 SEPARACIÓN: Guards específicos para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar punto turístico' })

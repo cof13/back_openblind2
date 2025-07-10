@@ -26,15 +26,24 @@ import { GetUser  } from '../auth/decorators/get-user.decorator';
 import { User } from '../models/mysql/user.entity';
 
 @ApiTags('Rutas de Transporte')
-@Controller('routes')
-@UseGuards(JwtAuthGuard)
+@Controller('routes') // 🔗 RUTA BASE: '/routes' - TODAS LAS RUTAS AGRUPADAS BAJO ESTA BASE
+@UseGuards(JwtAuthGuard) // 🔐 AUTENTICACIÓN: Aplica a todas las rutas - AGRUPACIÓN GLOBAL DE SEGURIDAD
 @UseInterceptors(ClassSerializerInterceptor)
 export class RouteController {
   constructor(private readonly routeService: RouteService) {}
 
+  // ========================================
+  // 📝 OPERACIONES CRUD BÁSICAS - GRUPO 1: RUTAS ESTÁNDAR
+  // ========================================
+
+  /**
+   * 🆕 CREAR - POST /routes
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Tiene su propio guard adicional para roles específicos
+   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard adicional específico para esta ruta
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear nueva ruta de transporte' })
@@ -47,6 +56,11 @@ export class RouteController {
     return this.routeService.create(createRouteDto);
   }
 
+  /**
+   * 📋 LEER TODOS - GET /routes
+   * AGRUPADA: Solo usa la autenticación JWT del controlador
+   * SEPARADA: Sin guards adicionales - acceso público (solo JWT)
+   */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las rutas con filtros' })
   @ApiResponse({ status: 200, description: 'Lista de rutas' })
@@ -54,6 +68,16 @@ export class RouteController {
     return this.routeService.findAll(queryDto);
   }
 
+  // ========================================
+  // 🔍 RUTAS ESPECIALIZADAS - GRUPO 2: CONSULTAS ESPECÍFICAS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * ✅ RUTAS ACTIVAS - GET /routes/active
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica que debe ir antes de ':id'
+   */
   @Get('active')
   @ApiOperation({ summary: 'Obtener solo rutas activas' })
   @ApiResponse({ status: 200, description: 'Lista de rutas activas' })
@@ -61,8 +85,13 @@ export class RouteController {
     return this.routeService.findActiveRoutes();
   }
 
+  /**
+   * 📊 ESTADÍSTICAS - GET /routes/statistics
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional para roles administrativos
+   */
   @Get('statistics')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener estadísticas de rutas' })
@@ -71,6 +100,11 @@ export class RouteController {
     return this.routeService.getRouteStatistics();
   }
 
+  /**
+   * 🚌 RUTAS POR TRANSPORTE - GET /routes/transport/:transportType
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica con parámetro propio
+   */
   @Get('transport/:transportType')
   @ApiOperation({ summary: 'Obtener rutas por tipo de transporte' })
   @ApiResponse({ status: 200, description: 'Rutas del tipo de transporte especificado' })
@@ -78,6 +112,16 @@ export class RouteController {
     return this.routeService.findByTransportType(transportType);
   }
 
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS - GRUPO 3: OPERACIONES POR ID
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN DESPUÉS de rutas específicas
+  // ========================================
+
+  /**
+   * 🔍 LEER UNO - GET /routes/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Colocada después de rutas específicas para evitar conflictos
+   */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener ruta por ID' })
   @ApiResponse({ status: 200, description: 'Ruta encontrada' })
@@ -86,6 +130,11 @@ export class RouteController {
     return this.routeService.findOne(id);
   }
 
+  /**
+   * 🔎 DETALLES COMPLETOS - GET /routes/:id/details
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Extiende la ruta ':id' con funcionalidad adicional
+   */
   @Get(':id/details')
   @ApiOperation({ summary: 'Obtener detalles de la ruta por ID' })
   @ApiResponse({ status: 200, description: 'Detalles de la ruta encontrados' })
@@ -94,9 +143,14 @@ export class RouteController {
     return this.routeService.findOneWithDetails(id);
   }
 
+  /**
+   * ✏️ ACTUALIZAR - PATCH /routes/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles de edición
+   */
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para editores
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar ruta por ID' })
@@ -106,9 +160,14 @@ export class RouteController {
     return this.routeService.update(id, updateRouteDto);
   }
 
+  /**
+   * 🗑️ ELIMINAR - DELETE /routes/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar ruta por ID' })

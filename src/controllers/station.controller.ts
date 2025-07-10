@@ -25,15 +25,24 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
 @ApiTags('Estaciones de Transporte')
-@Controller('stations')
-@UseGuards(JwtAuthGuard)
+@Controller('stations') // 🔗 RUTA BASE: '/stations' - TODAS LAS RUTAS AGRUPADAS BAJO ESTA BASE
+@UseGuards(JwtAuthGuard) // 🔐 AUTENTICACIÓN: Aplica a todas las rutas - AGRUPACIÓN GLOBAL DE SEGURIDAD
 @UseInterceptors(ClassSerializerInterceptor)
 export class StationController {
   constructor(private readonly stationService: StationService) {}
 
+  // ========================================
+  // 📝 OPERACIONES CRUD BÁSICAS - GRUPO 1: RUTAS ESTÁNDAR
+  // ========================================
+
+  /**
+   * 🆕 CREAR - POST /stations
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Tiene su propio guard adicional para roles específicos
+   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard adicional específico para esta ruta
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear nueva estación' })
@@ -42,6 +51,11 @@ export class StationController {
     return this.stationService.create(createStationDto);
   }
 
+  /**
+   * 📋 LEER TODOS - GET /stations
+   * AGRUPADA: Solo usa la autenticación JWT del controlador
+   * SEPARADA: Sin guards adicionales - acceso público (solo JWT)
+   */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las estaciones con filtros' })
   @ApiResponse({ status: 200, description: 'Lista de estaciones' })
@@ -49,6 +63,16 @@ export class StationController {
     return this.stationService.findAll(queryDto);
   }
 
+  // ========================================
+  // 🔍 RUTAS ESPECIALIZADAS - GRUPO 2: CONSULTAS ESPECÍFICAS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * ✅ ESTACIONES OPERATIVAS - GET /stations/operational
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica que debe ir antes de ':id'
+   */
   @Get('operational')
   @ApiOperation({ summary: 'Obtener solo estaciones operativas' })
   @ApiResponse({ status: 200, description: 'Lista de estaciones operativas' })
@@ -56,8 +80,13 @@ export class StationController {
     return this.stationService.findOperationalStations();
   }
 
+  /**
+   * 📊 ESTADÍSTICAS - GET /stations/statistics
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional para roles administrativos
+   */
   @Get('statistics')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener estadísticas de estaciones' })
@@ -66,6 +95,16 @@ export class StationController {
     return this.stationService.getStationStatistics();
   }
 
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS ESPECÍFICOS - GRUPO 3: CONSULTAS CON PARÁMETROS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * 🚌 POR TIPO DE TRANSPORTE - GET /stations/transport/:transportType
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica con parámetro propio
+   */
   @Get('transport/:transportType')
   @ApiOperation({ summary: 'Obtener estaciones por tipo de transporte' })
   @ApiResponse({ status: 200, description: 'Estaciones del tipo de transporte especificado' })
@@ -73,6 +112,11 @@ export class StationController {
     return this.stationService.findByTransportType(transportType);
   }
 
+  /**
+   * 📍 ESTACIONES CERCANAS - GET /stations/nearby/:lat/:lng
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica con múltiples parámetros de coordenadas
+   */
   @Get('nearby/:lat/:lng')
   @ApiOperation({ summary: 'Obtener estaciones cercanas a una ubicación' })
   @ApiResponse({ status: 200, description: 'Estaciones cercanas' })
@@ -84,6 +128,16 @@ export class StationController {
     return this.stationService.findNearby(lat, lng, radius);
   }
 
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS ID - GRUPO 4: OPERACIONES POR ID
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN DESPUÉS de todas las rutas específicas
+  // ========================================
+
+  /**
+   * 🔍 LEER UNO - GET /stations/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Colocada después de rutas específicas para evitar conflictos
+   */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener estación por ID' })
   @ApiResponse({ status: 200, description: 'Estación encontrada' })
@@ -92,6 +146,11 @@ export class StationController {
     return this.stationService.findOne(id);
   }
 
+  /**
+   * 🔎 DETALLES COMPLETOS - GET /stations/:id/details
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Extiende la ruta ':id' con funcionalidad adicional
+   */
   @Get(':id/details')
   @ApiOperation({ summary: 'Obtener estación con detalles completos (MongoDB)' })
   @ApiResponse({ status: 200, description: 'Estación con detalles completos' })
@@ -99,8 +158,13 @@ export class StationController {
     return this.stationService.findOneWithDetails(id);
   }
 
+  /**
+   * ✏️ ACTUALIZAR - PATCH /stations/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles de edición
+   */
   @Patch(':id')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para editores
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar estación' })
@@ -112,9 +176,14 @@ export class StationController {
     return this.stationService.update(id, updateStationDto);
   }
 
+  /**
+   * 🗑️ ELIMINAR - DELETE /stations/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar estación' })

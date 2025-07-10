@@ -28,15 +28,24 @@ import { GetUser } from '../auth/decorators/get-user.decorator';
 import { User } from '../models/mysql/user.entity';
 
 @ApiTags('Notificaciones del Sistema')
-@Controller('system-notifications')
-@UseGuards(JwtAuthGuard)
+@Controller('system-notifications') // 🔗 RUTA BASE: '/system-notifications' - TODAS LAS RUTAS AGRUPADAS BAJO ESTA BASE
+@UseGuards(JwtAuthGuard) // 🔐 AUTENTICACIÓN: Aplica a todas las rutas - AGRUPACIÓN GLOBAL DE SEGURIDAD
 @UseInterceptors(ClassSerializerInterceptor)
 export class SystemNotificationController {
   constructor(private readonly systemNotificationService: SystemNotificationService) {}
 
+  // ========================================
+  // 📝 OPERACIONES CRUD BÁSICAS - GRUPO 1: RUTAS ESTÁNDAR
+  // ========================================
+
+  /**
+   * 🆕 CREAR - POST /system-notifications
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Tiene su propio guard adicional para roles administrativos
+   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard adicional específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear nueva notificación del sistema' })
@@ -45,6 +54,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.create(createNotificationDto);
   }
 
+  /**
+   * 📋 LEER TODOS - GET /system-notifications
+   * AGRUPADA: Solo usa la autenticación JWT del controlador
+   * SEPARADA: Sin guards adicionales - acceso para usuario autenticado
+   */
   @Get()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener todas las notificaciones con filtros' })
@@ -53,6 +67,16 @@ export class SystemNotificationController {
     return this.systemNotificationService.findAll(queryDto, user.id_usuario);
   }
 
+  // ========================================
+  // 🔍 RUTAS ESPECIALIZADAS - GRUPO 2: CONSULTAS ESPECÍFICAS
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN ANTES de ':id' para evitar conflictos
+  // ========================================
+
+  /**
+   * 👤 MIS NOTIFICACIONES - GET /system-notifications/my-notifications
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica para el usuario autenticado
+   */
   @Get('my-notifications')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener notificaciones del usuario autenticado' })
@@ -61,6 +85,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.getUserNotifications(user.id_usuario, queryDto);
   }
 
+  /**
+   * 🔢 CONTADOR NO LEÍDAS - GET /system-notifications/unread-count
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica para contar notificaciones no leídas
+   */
   @Get('unread-count')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener cantidad de notificaciones no leídas del usuario' })
@@ -69,8 +98,13 @@ export class SystemNotificationController {
     return this.systemNotificationService.getUnreadCount(user.id_usuario);
   }
 
+  /**
+   * 📊 ESTADÍSTICAS - GET /system-notifications/statistics
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional para roles administrativos
+   */
   @Get('statistics')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener estadísticas de notificaciones' })
@@ -79,6 +113,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.getNotificationStatistics();
   }
 
+  /**
+   * 🌐 GLOBALES - GET /system-notifications/global
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica para notificaciones globales
+   */
   @Get('global')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener notificaciones globales' })
@@ -87,6 +126,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.getGlobalNotifications(queryDto);
   }
 
+  /**
+   * 🕒 RECIENTES - GET /system-notifications/recent
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Ruta específica para notificaciones recientes
+   */
   @Get('recent')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener notificaciones recientes del usuario' })
@@ -95,6 +139,16 @@ export class SystemNotificationController {
     return this.systemNotificationService.getRecentNotifications(user.id_usuario, limit);
   }
 
+  // ========================================
+  // 🔍 RUTAS CON PARÁMETROS ID - GRUPO 3: OPERACIONES POR ID
+  // ⚠️ SEPARACIÓN CRÍTICA: Estas rutas VAN DESPUÉS de todas las rutas específicas
+  // ========================================
+
+  /**
+   * 🔍 LEER UNO - GET /system-notifications/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Colocada después de rutas específicas para evitar conflictos
+   */
   @Get(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener notificación por ID' })
@@ -104,6 +158,15 @@ export class SystemNotificationController {
     return this.systemNotificationService.findOne(id, user.id_usuario);
   }
 
+  // ========================================
+  // ✏️ OPERACIONES DE ACTUALIZACIÓN - GRUPO 4: RUTAS PATCH
+  // ========================================
+
+  /**
+   * ✅ MARCAR COMO LEÍDA - PATCH /system-notifications/:id/mark-read
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Operación específica para marcar como leída
+   */
   @Patch(':id/mark-read')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Marcar notificación como leída/no leída' })
@@ -116,6 +179,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.markAsRead(id, markReadDto.leida, user.id_usuario);
   }
 
+  /**
+   * ✅ MARCAR TODAS - PATCH /system-notifications/mark-all-read
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Operación masiva para marcar todas como leídas
+   */
   @Patch('mark-all-read')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Marcar todas las notificaciones del usuario como leídas' })
@@ -124,6 +192,11 @@ export class SystemNotificationController {
     return this.systemNotificationService.markAllAsRead(user.id_usuario);
   }
 
+  /**
+   * ✅ MARCAR MÚLTIPLES - PATCH /system-notifications/bulk-mark-read
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Operación masiva para marcar múltiples como leídas
+   */
   @Patch('bulk-mark-read')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Marcar múltiples notificaciones como leídas/no leídas' })
@@ -132,8 +205,13 @@ export class SystemNotificationController {
     return this.systemNotificationService.bulkMarkAsRead(bulkMarkReadDto, user.id_usuario);
   }
 
+  /**
+   * ✏️ ACTUALIZAR - PATCH /system-notifications/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Patch(':id')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar notificación (solo administradores)' })
@@ -145,8 +223,17 @@ export class SystemNotificationController {
     return this.systemNotificationService.update(id, updateNotificationDto);
   }
 
+  // ========================================
+  // 🗑️ OPERACIONES DE ELIMINACIÓN - GRUPO 5: RUTAS DELETE
+  // ========================================
+
+  /**
+   * 🗑️ ELIMINAR MÚLTIPLES - DELETE /system-notifications/bulk
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Delete('bulk')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth()
@@ -156,8 +243,13 @@ export class SystemNotificationController {
     return this.systemNotificationService.bulkDelete(bulkDeleteDto.notification_ids);
   }
 
+  /**
+   * 🧹 LIMPIAR EXPIRADAS - DELETE /system-notifications/cleanup-expired
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Delete('cleanup-expired')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth()
@@ -167,8 +259,13 @@ export class SystemNotificationController {
     return this.systemNotificationService.cleanupExpiredNotifications();
   }
 
+  /**
+   * 🗑️ ELIMINAR UNO - DELETE /system-notifications/:id
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional específico para roles administrativos
+   */
   @Delete(':id')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para administradores
   @Roles('Super Administrador', 'Administrador')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth()
@@ -178,9 +275,18 @@ export class SystemNotificationController {
     return this.systemNotificationService.remove(id);
   }
 
-  // Endpoints para crear notificaciones automáticas
+  // ========================================
+  // 🤖 ENDPOINTS AUTOMÁTICOS - GRUPO 6: NOTIFICACIONES AUTOMÁTICAS
+  // ⚠️ SEPARACIÓN ESPECIAL: Endpoints para crear notificaciones automáticas
+  // ========================================
+
+  /**
+   * 🛣️ NOTIFICACIÓN RUTA CREADA - POST /system-notifications/auto/route-created
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional para roles de edición + funcionalidad automática
+   */
   @Post('auto/route-created')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para editores
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear notificación automática para nueva ruta' })
@@ -189,8 +295,13 @@ export class SystemNotificationController {
     return this.systemNotificationService.createRouteCreatedNotification(routeData.routeId, routeData.routeName);
   }
 
+  /**
+   * 🔧 NOTIFICACIÓN MANTENIMIENTO - POST /system-notifications/auto/station-maintenance
+   * AGRUPADA: Hereda autenticación JWT del controlador
+   * SEPARADA: Guard adicional para roles de edición + funcionalidad automática
+   */
   @Post('auto/station-maintenance')
-  @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard) // 🔐 SEPARACIÓN: Guard específico para editores
   @Roles('Super Administrador', 'Administrador', 'Editor')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear notificación automática para mantenimiento de estación' })
