@@ -17,7 +17,7 @@ export const keys = {
 
   // Application Settings
   APP_PORT: 3000,
-  NODE_ENV: 'development',
+  NODE_ENV: process.env.NODE_ENV || 'development',
 
   // API Settings
   API_PREFIX: 'api/v1',

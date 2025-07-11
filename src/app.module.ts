@@ -1,13 +1,12 @@
+//src/app.module.ts`** (usando configuraciones centralizadas):
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { keys } from './config/keys';
 import { LoggerModule } from './config/logger.module';
-
-// Elimina las importaciones manuales de las entidades MySQL
-// (TypeORM las cargará automáticamente)
-
+import { typeOrmConfig } from './config/database.mysql';
+import { mongooseConfig } from './config/database.mongo';
 // Importar módulos de funcionalidad
 import { UserModule } from './modules/user.module';
 import { RoleModule } from './modules/role.module';
@@ -15,14 +14,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { VoiceGuideModule } from './modules/voice-guide.module';
-import { RouteModule } from './modules/rute.module';
+import { RouteModule } from './modules/rute.module'; // Asegúrate que el nombre del archivo sea correcto (rute.module o route.module)
 import { StationModule } from './modules/station.module';
 import { TransportModule } from './modules/transport.module';
 import { PersonalizedMessageModule } from './modules/personalized-message.module';
 import { TouristPointModule } from './modules/tourist-point.module';
 import { ServiceRatingModule } from './modules/service-rating.module';
 import { SystemNotificationModule } from './modules/system-notification.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,39 +28,19 @@ import { SystemNotificationModule } from './modules/system-notification.module';
       envFilePath: '.env',
       expandVariables: true,
     }),
-
-    // Configuración de TypeORM con carga automática de entidades
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: keys.MYSQL_HOST,
-      port: keys.MYSQL_PORT,
-      username: keys.MYSQL_USERNAME,
-      password: keys.MYSQL_PASSWORD,
-      database: keys.MYSQL_DATABASE,
-      // Cambia `entities` por `autoLoadEntities` + `entities` para búsqueda automática:
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Busca en todos los archivos `.entity.ts` o `.entity.js`
-      autoLoadEntities: true, // Opcional (puede combinarse con `entities`)
-      synchronize: keys.NODE_ENV !== 'production',
-      logging: keys.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
-    }),
-
-    // Configuración de MongoDB
+    // Configuración de TypeORM usando configuración centralizada
+    TypeOrmModule.forRoot(typeOrmConfig),
+    // Configuración de MongoDB usando configuración centralizada
     MongooseModule.forRootAsync({
-      useFactory: () => ({
-        uri: keys.MONGO_URI,
-        serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 45000,
-        connectTimeoutMS: 10000,
-      }),
+      useFactory: () => mongooseConfig
     }),
-
     // Módulos de funcionalidad
     LoggerModule,
     UserModule,
     RoleModule,
     AuthModule,
     VoiceGuideModule,
-    RouteModule,
+    RouteModule, // Asegúrate que el nombre de la variable coincida
     StationModule,
     TransportModule,
     PersonalizedMessageModule,
