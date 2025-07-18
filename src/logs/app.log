@@ -1730,3 +1730,71 @@
 2025-07-16 22:40:33 [INFO]: [0mPOST /detalle-rol/asignar-multiples-roles [31m500[0m 28.726 ms - 84[0m
 2025-07-16 22:41:12 [ERROR]: Error al asignar múltiples roles: Error: Duplicate entry '0' for key 'PRIMARY'
 2025-07-16 22:41:12 [INFO]: [0mPOST /detalle-rol/asignar-multiples-roles [31m500[0m 5.760 ms - 84[0m
+2025-07-17 14:03:50 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-17 14:03:50 [INFO]: Base de datos conectada
+2025-07-17 14:03:50 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-17 14:03:50 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-17 14:03:50 [INFO]: Conexión establecida con la base de datos
+2025-07-17 14:03:51 [INFO]: Base de Datos sincronizadas
+2025-07-17 14:07:19 [INFO]: [0mGET / [32m200[0m 16.130 ms - 12[0m
+2025-07-17 14:07:19 [WARN]: 404 Not Found: /favicon.ico
+2025-07-17 14:07:19 [INFO]: [0mGET /favicon.ico [33m404[0m 6.854 ms - 62[0m
+2025-07-17 14:11:10 [INFO]: ⚠️  Mongoose desconectado de MongoDB
+2025-07-17 14:18:23 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-17 14:18:23 [INFO]: Base de datos conectada
+2025-07-17 14:18:23 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-17 14:18:23 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-17 14:18:23 [INFO]: Conexión establecida con la base de datos
+2025-07-17 14:18:26 [INFO]: Base de Datos sincronizadas
+2025-07-17 14:23:06 [INFO]: [0mPOST /auth/register [32m201[0m 212.340 ms - 199[0m
+2025-07-17 14:25:31 [INFO]: [0mPOST /auth/login [33m401[0m 14.538 ms - 67[0m
+2025-07-17 14:28:31 [INFO]: [0mPOST /auth/login [33m401[0m 8.292 ms - 67[0m
+2025-07-17 14:30:59 [INFO]: [0mPOST /auth/register [32m201[0m 51.650 ms - 211[0m
+2025-07-17 14:35:19 [INFO]: [0mPOST /auth/login [33m401[0m 6.742 ms - 67[0m
+2025-07-17 14:36:06 [INFO]: [0mPOST /auth/login [33m400[0m 5.785 ms - 140[0m
+2025-07-17 14:36:22 [INFO]: [0mPOST /auth/login [33m400[0m 5.983 ms - 140[0m
+2025-07-17 14:36:46 [INFO]: [0mPOST /auth/login [33m401[0m 6.025 ms - 67[0m
+2025-07-17 14:47:09 [INFO]: [0mPOST /auth/login [33m401[0m 8.165 ms - 67[0m
+2025-07-17 14:50:19 [INFO]: [0mPOST /auth/register [33m400[0m 4.601 ms - 140[0m
+2025-07-17 14:50:51 [INFO]: [0mPOST /auth/register [32m201[0m 89.419 ms - 202[0m
+2025-07-17 14:52:53 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-17 14:52:53 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-17 14:52:53 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-17 14:52:53 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-17 14:52:53 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-17 14:52:53 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-17 14:52:53 [INFO]: [0mGET /usuarios/lista [32m200[0m 66.291 ms - 679[0m
+2025-07-17 14:55:53 [INFO]: [0mGET /roles/lista [32m200[0m 25.553 ms - 2[0m
+2025-07-17 14:58:23 [INFO]: [0mPOST /roles/crear [32m201[0m 32.853 ms - 47[0m
+2025-07-17 14:59:58 [INFO]: [0mPUT /roles/actualizar/1 [32m200[0m 31.739 ms - 42[0m
+2025-07-17 15:00:21 [INFO]: [0mGET /roles/lista [32m200[0m 8.153 ms - 234[0m
+2025-07-17 15:02:23 [INFO]: ⚠️  Mongoose desconectado de MongoDB
+2025-07-17 15:24:20 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-17 15:24:20 [INFO]: Base de datos conectada
+2025-07-17 15:24:20 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-17 15:24:20 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-17 15:24:20 [INFO]: Conexión establecida con la base de datos
+2025-07-17 15:24:23 [INFO]: Base de Datos sincronizadas
+2025-07-17 15:25:05 [INFO]: [0mPOST /auth/register [32m201[0m 160.632 ms - 200[0m
+2025-07-17 15:25:36 [INFO]: [0mPOST /auth/login [33m401[0m 10.659 ms - 67[0m
+2025-07-17 15:34:00 [INFO]: ⚠️  Mongoose desconectado de MongoDB
+2025-07-17 15:34:06 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-17 15:34:06 [INFO]: Base de datos conectada
+2025-07-17 15:34:06 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-17 15:34:06 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-17 15:34:06 [INFO]: Conexión establecida con la base de datos
+2025-07-17 15:34:09 [INFO]: Base de Datos sincronizadas
+2025-07-17 15:34:14 [INFO]: [0mPOST /auth/login [33m401[0m 94.096 ms - 67[0m
+2025-07-17 15:35:39 [INFO]: [0mPOST /auth/register [32m201[0m 96.828 ms - 204[0m
+2025-07-17 15:36:15 [INFO]: [0mPOST /auth/login [33m401[0m 12.007 ms - 67[0m
+2025-07-17 15:38:18 [INFO]: [0mPOST /auth/login [33m401[0m 10.945 ms - 67[0m
+2025-07-17 15:40:39 [INFO]: [0mPOST /auth/register [32m201[0m 48.878 ms - 207[0m
+2025-07-17 15:41:12 [INFO]: [0mPOST /auth/login [33m401[0m 8.870 ms - 67[0m
+2025-07-17 15:43:12 [INFO]: ⚠️  Mongoose desconectado de MongoDB
+2025-07-17 23:58:59 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-17 23:59:00 [INFO]: Base de datos conectada
+2025-07-17 23:59:00 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-17 23:59:00 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-17 23:59:00 [INFO]: Conexión establecida con la base de datos
+2025-07-17 23:59:03 [INFO]: Base de Datos sincronizadas
+2025-07-18 00:01:00 [INFO]: ⚠️  Mongoose desconectado de MongoDB

@@ -1,17 +1,43 @@
 const passport = require('passport');
 const orm = require('../Database/dataBase.orm');
 const { validationResult } = require('express-validator');
+const { cifrarDatos, descifrarDatos } = require('../lib/encrypDates');
 
 const authCtl = {};
+
+// Función para descifrar de forma segura
+const descifrarSeguro = (dato) => {
+  try {
+    return dato ? descifrarDatos(dato) : '';
+  } catch (error) {
+    console.error('Error al descifrar:', error);
+    return '';
+  }
+};
+
+// Función para preparar el objeto de usuario para respuesta
+const prepararUsuarioParaRespuesta = (user) => {
+  return {
+    id: user.idUser,
+    name: descifrarSeguro(user.nameUsers),
+    email: descifrarSeguro(user.emailUser),
+    username: descifrarSeguro(user.userName)
+  };
+};
 
 // Register endpoint
 authCtl.register = async (req, res, next) => {
     try {
-        // Validar errores de entrada
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.apiError('Validation errors', 400, errors.array());
         }
+
+        // Cifrar todos los datos sensibles
+        req.body.nameUsers = cifrarDatos(req.body.nameUsers);
+        req.body.emailUser = cifrarDatos(req.body.emailUser);
+        req.body.userName = cifrarDatos(req.body.userName);
+        req.body.passwordUser = cifrarDatos(req.body.passwordUser);
 
         passport.authenticate('local.Signup', (err, user, info) => {
             if (err) {
@@ -21,19 +47,13 @@ authCtl.register = async (req, res, next) => {
                 return res.apiError(info.message || 'Registration failed', 400);
             }
             
-            // Login automático después del registro
             req.logIn(user, (err) => {
                 if (err) {
                     return res.apiError('Login after registration failed', 500);
                 }
                 
                 return res.apiResponse({
-                    user: {
-                        id: user.idUser,
-                        name: user.nameUsers,
-                        email: user.emailUser,
-                        username: user.userName
-                    },
+                    user: prepararUsuarioParaRespuesta(user),
                     token: req.sessionID
                 }, 201, 'User registered successfully');
             });
@@ -67,12 +87,7 @@ authCtl.login = async (req, res, next) => {
                 }
                 
                 return res.apiResponse({
-                    user: {
-                        id: user.idUser,
-                        name: user.nameUsers,
-                        email: user.emailUser,
-                        username: user.userName
-                    },
+                    user: prepararUsuarioParaRespuesta(user),
                     token: req.sessionID
                 }, 200, 'Login successful');
             });
@@ -106,14 +121,8 @@ authCtl.getProfile = (req, res) => {
         return res.apiError('Not authenticated', 401);
     }
     
-    const user = req.user;
     return res.apiResponse({
-        user: {
-            id: user.idUser,
-            name: user.nameUsers,
-            email: user.emailUser,
-            username: user.userName
-        }
+        user: prepararUsuarioParaRespuesta(req.user)
     }, 200, 'Profile retrieved successfully');
 };
 
