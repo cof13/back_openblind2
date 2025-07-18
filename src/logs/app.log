@@ -1805,3 +1805,15 @@
 2025-07-18 12:13:59 [INFO]: Conexión establecida con la base de datos
 2025-07-18 12:14:34 [INFO]: Base de Datos sincronizadas
 2025-07-18 12:19:59 [INFO]: ⚠️  Mongoose desconectado de MongoDB
+2025-07-18 13:11:31 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-18 13:11:31 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-18 13:11:31 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-18 13:11:32 [INFO]: Base de datos conectada
+2025-07-18 13:11:34 [INFO]: Conexión establecida con la base de datos
+2025-07-18 13:12:31 [INFO]: Base de Datos sincronizadas
+2025-07-18 13:21:03 [INFO]: El servidor está escuchando en el puerto 4500
+2025-07-18 13:21:03 [INFO]: Base de datos conectada
+2025-07-18 13:21:04 [INFO]: Conexión establecida con la base de datos
+2025-07-18 13:21:05 [INFO]: ✅ Mongoose conectado a MongoDB en: ac-sfmihhl-shard-00-01.jblz2vn.mongodb.net
+2025-07-18 13:21:05 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-18 13:21:48 [INFO]: Base de Datos sincronizadas
