@@ -2,7 +2,6 @@ const empresaTransporteCtl = {};
 const sql = require('../Database/dataBase.sql');
 const { cifrarDatos, descifrarDatos } = require('../lib/encrypDates');
 
-// Función para descifrar de forma segura
 const descifrarSeguro = (dato) => {
     try {
         return dato ? descifrarDatos(dato) : '';
@@ -16,7 +15,7 @@ const descifrarSeguro = (dato) => {
 empresaTransporteCtl.mostrarEmpresas = async (req, res) => {
     try {
         const [listaEmpresas] = await sql.promise().query(`
-           SELECT * FROM empresasTransportes WHERE estadoEmpresa = "activo"
+           SELECT * FROM empresastransportes WHERE estadoEmpresa = "activo"
         `);
 
         const empresasCompletas = listaEmpresas.map(empresa => ({
@@ -38,14 +37,12 @@ empresaTransporteCtl.crearEmpresa = async (req, res) => {
     try {
         const { nombreEmpresa, rucEmpresa, telefonoEmpresa } = req.body;
 
-        // Validación de campos requeridos
         if (!nombreEmpresa || !rucEmpresa || !telefonoEmpresa) {
             return res.status(400).json({ message: 'Datos básicos de la empresa son obligatorios' });
         }
 
-        // Crear en SQL con datos encriptados
         const [resultado] = await sql.promise().query(`
-            INSERT INTO empresasTransportes (nombreEmpresa, rucEmpresa, telefonoEmpresa, estadoEmpresa, createEmpresa)
+            INSERT INTO empresastransportes (nombreEmpresa, rucEmpresa, telefonoEmpresa, estadoEmpresa, createEmpresa)
             VALUES (?, ?, ?, 'activo', ?)
         `, [cifrarDatos(nombreEmpresa), cifrarDatos(rucEmpresa), cifrarDatos(telefonoEmpresa), new Date().toLocaleString()]);
 
@@ -69,14 +66,12 @@ empresaTransporteCtl.actualizarEmpresa = async (req, res) => {
         const { id } = req.params;
         const { nombreEmpresa, rucEmpresa, telefonoEmpresa } = req.body;
 
-        // Validar campos
         if (!nombreEmpresa || !rucEmpresa || !telefonoEmpresa) {
             return res.status(400).json({ message: 'Datos básicos son obligatorios' });
         }
 
-        // Actualizar en SQL
         await sql.promise().query(
-            `UPDATE empresasTransporte SET 
+            `UPDATE empresastransportes SET 
                 nombreEmpresa = ?, 
                 rucEmpresa = ?, 
                 telefonoEmpresa = ?, 
@@ -105,7 +100,7 @@ empresaTransporteCtl.eliminarEmpresa = async (req, res) => {
         const { id } = req.params;
 
         await sql.promise().query(
-            `UPDATE empresasTransporte SET 
+            `UPDATE empresastransportes SET 
                 estadoEmpresa = 'inactivo', 
                 updateEmpresa = ? 
              WHERE idEmpresaTransporte = ?`,

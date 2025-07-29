@@ -2480,3 +2480,223 @@
 2025-07-25 13:44:45 [INFO]: 🚀 MongoDB conectado correctamente
 2025-07-25 13:44:45 [INFO]: Conexión establecida con la base de datos
 2025-07-25 13:46:13 [ERROR]: Error al sincronizar la Base de Datos: SequelizeUnknownConstraintError: Constraint calificaciones_ibfk_136404 on table calificaciones does not exist
+2025-07-28 12:51:01 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 12:51:01 [INFO]: Base de datos conectada
+2025-07-28 12:51:01 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 12:51:01 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 12:51:01 [INFO]: Conexión establecida con la base de datos
+2025-07-28 12:51:04 [INFO]: Base de Datos sincronizadas
+2025-07-28 12:53:16 [INFO]: [0mPOST /auth/login [33m400[0m 47.690 ms - 222[0m
+2025-07-28 12:53:28 [INFO]: [0mPOST /auth/register [32m201[0m 174.684 ms - 201[0m
+2025-07-28 12:54:48 [ERROR]: Error al mostrar empresas: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 12:54:48 [INFO]: [0mGET /empresas/lista [31m500[0m 12.021 ms - 100[0m
+2025-07-28 13:03:08 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 13:03:08 [INFO]: Base de datos conectada
+2025-07-28 13:03:08 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 13:03:08 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 13:03:08 [INFO]: Conexión establecida con la base de datos
+2025-07-28 13:03:11 [INFO]: Base de Datos sincronizadas
+2025-07-28 13:03:14 [INFO]: [0mGET /empresas/lista [32m200[0m 61.082 ms - 2[0m
+2025-07-28 13:06:16 [INFO]: [0mPOST /empresas/crear [32m201[0m 77.847 ms - 69[0m
+2025-07-28 13:06:44 [INFO]: [0mPOST /empresas/crear [32m201[0m 27.509 ms - 69[0m
+2025-07-28 13:07:41 [INFO]: [0mPUT /empresas/actualizar/2 [32m200[0m 24.684 ms - 60[0m
+2025-07-28 13:08:40 [INFO]: [0mGET /empresas/lista [32m200[0m 9.765 ms - 460[0m
+2025-07-28 13:09:26 [INFO]: [0mDELETE /empresas/eliminar/1 [32m200[0m 5.606 ms - 60[0m
+2025-07-28 13:09:37 [WARN]: 404 Not Found: /empresas/lista
+2025-07-28 13:09:37 [INFO]: [0mDELETE /empresas/lista [33m404[0m 4.651 ms - 62[0m
+2025-07-28 13:09:43 [INFO]: [0mGET /empresas/lista [32m200[0m 9.849 ms - 245[0m
+2025-07-28 13:29:03 [INFO]: [0mGET /conductor/lista [32m200[0m 24.808 ms - 2[0m
+2025-07-28 13:32:12 [INFO]: [0mPOST /conductor/crear [32m201[0m 39.433 ms - 59[0m
+2025-07-28 13:33:04 [INFO]: [0mPUT /conductor/actualizar/1 [32m200[0m 29.070 ms - 48[0m
+2025-07-28 13:33:36 [INFO]: [0mGET /conductor/lista [32m200[0m 47.665 ms - 357[0m
+2025-07-28 13:35:30 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 13:35:30 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 13:35:30 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 13:35:30 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 13:35:30 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 13:35:30 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 13:35:30 [INFO]: [0mGET /usuarios/lista [32m200[0m 49.811 ms - 665[0m
+2025-07-28 13:37:07 [INFO]: [0mPOST /conductor/crear [32m201[0m 29.277 ms - 59[0m
+2025-07-28 13:38:32 [INFO]: [0mGET /conductor/lista [32m200[0m 18.786 ms - 685[0m
+2025-07-28 13:38:51 [INFO]: [0mDELETE /conductor/eliminar/1 [32m200[0m 22.857 ms - 48[0m
+2025-07-28 13:39:03 [INFO]: [0mGET /conductor/lista [32m200[0m 10.401 ms - 329[0m
+2025-07-28 14:13:22 [INFO]: [0mGET /ruta/lista [32m200[0m 5.513 ms - 2[0m
+2025-07-28 14:15:55 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:15:55 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:15:55 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:15:55 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:15:55 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:15:55 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:15:55 [INFO]: [0mGET /usuarios/lista [32m200[0m 25.435 ms - 665[0m
+2025-07-28 14:18:22 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:18:22 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:18:22 [INFO]: [0mGET /usuarios/obtener/2 [32m200[0m 7.145 ms - 196[0m
+2025-07-28 14:21:58 [INFO]: [0mPUT /usuarios/actualizar/2 [32m200[0m 20.106 ms - 46[0m
+2025-07-28 14:22:10 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:22:10 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:22:10 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:22:10 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:22:10 [INFO]: [0mGET /usuarios/lista [32m200[0m 22.400 ms - 692[0m
+2025-07-28 14:23:07 [INFO]: [0mDELETE /usuarios/eliminar/2 [32m200[0m 6.394 ms - 46[0m
+2025-07-28 14:23:20 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:23:20 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:23:20 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:23:20 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:23:20 [INFO]: [0mGET /usuarios/lista [32m200[0m 23.179 ms - 449[0m
+2025-07-28 14:24:47 [INFO]: [0mGET /usuarios/estadisticas [32m200[0m 4.884 ms - 122[0m
+2025-07-28 14:25:18 [INFO]: [0mGET /roles/lista [32m200[0m 3.352 ms - 2[0m
+2025-07-28 14:27:28 [INFO]: [0mPOST /roles/crear [32m201[0m 10.495 ms - 47[0m
+2025-07-28 14:28:47 [INFO]: [0mPUT /roles/actualizar/1 [32m200[0m 11.341 ms - 42[0m
+2025-07-28 14:29:01 [INFO]: [0mGET /roles/lista [32m200[0m 3.079 ms - 220[0m
+2025-07-28 14:31:14 [INFO]: [0mPOST /roles/por-defecto [32m201[0m 31.164 ms - 67[0m
+2025-07-28 14:33:49 [INFO]: [0mGET /roles/lista [32m200[0m 11.775 ms - -[0m
+2025-07-28 14:42:26 [INFO]: [0mGET /detalle-rol/lista [32m200[0m 4.468 ms - 2[0m
+2025-07-28 14:43:48 [INFO]: [0mGET /roles/lista [32m200[0m 7.268 ms - -[0m
+2025-07-28 14:44:27 [INFO]: [0mGET /detalle-rol/lista [32m200[0m 2.338 ms - 2[0m
+2025-07-28 14:45:23 [INFO]: [0mGET /detalle-rol/usuario/1/roles [32m200[0m 11.555 ms - 93[0m
+2025-07-28 14:46:33 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:46:33 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:46:33 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:46:33 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:46:33 [INFO]: [0mGET /usuarios/lista [32m200[0m 20.586 ms - 449[0m
+2025-07-28 14:48:34 [ERROR]: Error al actualizar usuario: SequelizeDatabaseError: Column 'idDetalleRol' cannot be null
+2025-07-28 14:48:34 [INFO]: [0mPUT /usuarios/actualizar/3 [31m500[0m 20.168 ms - 80[0m
+2025-07-28 14:49:15 [ERROR]: Error al actualizar usuario: SequelizeDatabaseError: Column 'idDetalleRol' cannot be null
+2025-07-28 14:49:15 [INFO]: [0mPUT /usuarios/actualizar/3 [31m500[0m 12.226 ms - 80[0m
+2025-07-28 14:51:41 [INFO]: [0mPUT /usuarios/actualizar/3 [32m200[0m 9.691 ms - 46[0m
+2025-07-28 14:54:30 [WARN]: 404 Not Found: /usuarios/asignar-rol
+2025-07-28 14:54:30 [INFO]: [0mPUT /usuarios/asignar-rol [33m404[0m 2.713 ms - 62[0m
+2025-07-28 14:54:52 [ERROR]: Error al asignar rol: SequelizeDatabaseError: Column 'idDetalleRol' cannot be null
+2025-07-28 14:54:52 [INFO]: [0mPOST /usuarios/asignar-rol [31m500[0m 9.204 ms - 81[0m
+2025-07-28 14:56:04 [INFO]: [0mGET /usuarios/estadisticas [32m200[0m 5.481 ms - 405[0m
+2025-07-28 14:56:30 [INFO]: [0mGET /roles/lista [32m200[0m 6.929 ms - -[0m
+2025-07-28 14:57:08 [INFO]: [0mGET /roles/obtener/1 [32m200[0m 6.994 ms - 211[0m
+2025-07-28 14:57:22 [INFO]: [0mGET /roles/obtener/2 [32m200[0m 4.119 ms - 174[0m
+2025-07-28 14:57:28 [INFO]: [0mGET /roles/obtener/3 [32m200[0m 4.171 ms - 173[0m
+2025-07-28 14:57:33 [INFO]: [0mGET /roles/obtener/4 [32m200[0m 5.875 ms - 168[0m
+2025-07-28 14:57:39 [INFO]: [0mGET /roles/obtener/5 [32m200[0m 4.249 ms - 167[0m
+2025-07-28 14:58:19 [ERROR]: Error al descifrar datos: Unexpected end of JSON input
+2025-07-28 14:58:19 [ERROR]: Error al descifrar: SyntaxError: Unexpected end of JSON input
+2025-07-28 14:58:19 [INFO]: [0mGET /usuarios/lista [32m200[0m 20.346 ms - 476[0m
+2025-07-28 14:59:16 [INFO]: [0mGET /detalle-rol/lista [32m200[0m 2.664 ms - 2[0m
+2025-07-28 15:00:08 [INFO]: [0mGET /categoria/transporte/lista [32m200[0m 4.167 ms - 2[0m
+2025-07-28 15:02:56 [INFO]: [0mPOST /categoria/transporte/crear [32m201[0m 10.322 ms - 74[0m
+2025-07-28 15:03:24 [INFO]: [0mGET /categoria/transporte/validar/1 [32m200[0m 4.190 ms - 267[0m
+2025-07-28 15:04:21 [INFO]: [0mPUT /categoria/transporte/actualizar/1 [32m200[0m 9.094 ms - 63[0m
+2025-07-28 15:04:59 [INFO]: [0mGET /categoria/transporte/lista [32m200[0m 5.319 ms - 273[0m
+2025-07-28 15:08:05 [INFO]: [0mPOST /categoria/estacion/crear [32m201[0m 8.908 ms - 73[0m
+2025-07-28 15:09:16 [INFO]: [0mPUT /categoria/estacion/actualizar/1 [32m200[0m 9.343 ms - 62[0m
+2025-07-28 15:09:29 [INFO]: [0mGET /categoria/estacion/lista [32m200[0m 3.664 ms - 326[0m
+2025-07-28 15:11:07 [INFO]: [0mPOST /categoria/lugar/crear [32m201[0m 8.497 ms - 80[0m
+2025-07-28 15:11:28 [WARN]: 404 Not Found: /categoria/lugar/editar/1
+2025-07-28 15:11:28 [INFO]: [0mPUT /categoria/lugar/editar/1 [33m404[0m 3.584 ms - 62[0m
+2025-07-28 15:11:44 [INFO]: [0mPUT /categoria/lugar/actualizar/1 [32m200[0m 8.436 ms - 69[0m
+2025-07-28 15:13:02 [WARN]: 404 Not Found: /categoria/lugar/listar
+2025-07-28 15:13:02 [INFO]: [0mGET /categoria/lugar/listar [33m404[0m 2.933 ms - 62[0m
+2025-07-28 15:13:09 [INFO]: [0mGET /categoria/lugar/lista [32m200[0m 3.987 ms - 287[0m
+2025-07-28 15:15:25 [INFO]: [0mPOST /categoria/tipos-mensaje/crear [32m201[0m 8.961 ms - 60[0m
+2025-07-28 15:16:07 [WARN]: 404 Not Found: /categoria/tipos-mensaje/actualizar/1
+2025-07-28 15:16:07 [INFO]: [0mPUT /categoria/tipos-mensaje/actualizar/1 [33m404[0m 2.472 ms - 62[0m
+2025-07-28 15:19:02 [INFO]: [0mPOST /categoria/metodos-ingreso/crear [32m201[0m 9.163 ms - 65[0m
+2025-07-28 15:19:35 [WARN]: 404 Not Found: /categoria/metodos-ingreso/actualizar/1
+2025-07-28 15:19:35 [INFO]: [0mPUT /categoria/metodos-ingreso/actualizar/1 [33m404[0m 2.699 ms - 62[0m
+2025-07-28 15:23:22 [WARN]: 404 Not Found: /categoria/metodos-ingreso/eliminar/1
+2025-07-28 15:23:22 [INFO]: [0mDELETE /categoria/metodos-ingreso/eliminar/1 [33m404[0m 2.594 ms - 62[0m
+2025-07-28 15:24:24 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 15:24:24 [INFO]: [0mGET /transporte/lista [31m500[0m 3.670 ms - 107[0m
+2025-07-28 15:26:37 [ERROR]: Error: Expected ',' or '}' after property value in JSON at position 21 (line 2 column 19)
+Stack: SyntaxError: Expected ',' or '}' after property value in JSON at position 21 (line 2 column 19)
+    at JSON.parse (<anonymous>)
+    at parse (C:\Users\Criss\back_openblind2\node_modules\body-parser\lib\types\json.js:92:19)
+    at C:\Users\Criss\back_openblind2\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)
+    at invokeCallback (C:\Users\Criss\back_openblind2\node_modules\raw-body\index.js:238:16)
+    at done (C:\Users\Criss\back_openblind2\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (C:\Users\Criss\back_openblind2\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-07-28 15:26:37 [INFO]: [0mPOST /categoria/idiomas/crear [31m500[0m 5.329 ms - 35[0m
+2025-07-28 15:26:57 [INFO]: [0mPOST /categoria/idiomas/crear [32m201[0m 7.762 ms - 53[0m
+2025-07-28 15:27:28 [WARN]: 404 Not Found: /categoria/idiomas/actualizar/1
+2025-07-28 15:27:28 [INFO]: [0mPUT /categoria/idiomas/actualizar/1 [33m404[0m 2.651 ms - 62[0m
+2025-07-28 15:31:09 [INFO]: [0mGET /categoria/todas [32m200[0m 8.939 ms - 469[0m
+2025-07-28 15:31:38 [ERROR]: Error al obtener estadísticas: Error: Unknown column 't.categoriaTransporteIdCategoriaTransporte' in 'on clause'
+2025-07-28 15:31:38 [INFO]: [0mGET /categoria/estadisticas [31m500[0m 4.219 ms - 129[0m
+2025-07-28 15:38:49 [INFO]: [0mGET /empresas/lista [32m200[0m 3.226 ms - 245[0m
+2025-07-28 15:40:23 [INFO]: [0mGET /conductor/lista [32m200[0m 12.995 ms - 329[0m
+2025-07-28 15:41:44 [INFO]: [0mPUT /conductor/actualizar/2 [32m200[0m 6.610 ms - 48[0m
+2025-07-28 15:42:22 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 15:42:22 [INFO]: [0mGET /transporte/lista [31m500[0m 3.271 ms - 107[0m
+2025-07-28 15:48:09 [INFO]: [0mGET /empresas/lista [32m200[0m 3.090 ms - 245[0m
+2025-07-28 20:45:33 [WARN]: 404 Not Found: //transporte/lista
+2025-07-28 20:45:33 [INFO]: [0mGET //transporte/lista [33m404[0m 3.671 ms - 62[0m
+2025-07-28 21:02:29 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:02:29 [INFO]: [0mGET /transporte/lista [31m500[0m 14.256 ms - 107[0m
+2025-07-28 21:02:42 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:02:42 [INFO]: [0mGET /transporte/lista [31m500[0m 5.626 ms - 107[0m
+2025-07-28 21:03:04 [INFO]: [0mPOST /transporte/crear [32m201[0m 78.679 ms - 61[0m
+2025-07-28 21:03:17 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:03:17 [INFO]: [0mGET /transporte/lista [31m500[0m 4.813 ms - 107[0m
+2025-07-28 21:08:56 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:08:56 [INFO]: Base de datos conectada
+2025-07-28 21:08:56 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:08:56 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:08:56 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:08:59 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:09:06 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:09:06 [INFO]: [0mGET /transporte/lista [31m500[0m 36.977 ms - 107[0m
+2025-07-28 21:09:39 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:09:39 [INFO]: Base de datos conectada
+2025-07-28 21:09:39 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:09:39 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:09:39 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:09:42 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:11:06 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:11:06 [INFO]: Base de datos conectada
+2025-07-28 21:11:06 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:11:06 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:11:06 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:11:09 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:11:20 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:11:20 [INFO]: Base de datos conectada
+2025-07-28 21:11:20 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:11:20 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:11:20 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:11:23 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:11:35 [ERROR]: Error al mostrar transportes: Error: Unknown column 't.categoriaTransporteIdCategoriaTransporte' in 'on clause'
+2025-07-28 21:11:35 [INFO]: [0mGET /transporte/lista [31m500[0m 48.765 ms - 131[0m
+2025-07-28 21:11:50 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:11:50 [INFO]: Base de datos conectada
+2025-07-28 21:11:50 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:11:50 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:11:50 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:11:53 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:12:01 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:12:01 [INFO]: [0mGET /transporte/lista [31m500[0m 32.030 ms - 107[0m
+2025-07-28 21:12:22 [INFO]: [0mPOST /transporte/crear [32m201[0m 104.808 ms - 61[0m
+2025-07-28 21:12:33 [ERROR]: Error al mostrar transportes: Error: Table 'openblind.empresastransporte' doesn't exist
+2025-07-28 21:12:33 [INFO]: [0mGET /transporte/lista [31m500[0m 4.679 ms - 107[0m
+2025-07-28 21:13:09 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:13:09 [INFO]: Base de datos conectada
+2025-07-28 21:13:09 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:13:09 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:13:09 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:13:12 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:14:21 [ERROR]: Error al mostrar estaciones: Error: Unknown column 'e.categoriaEstacionIdCategoriaEstacion' in 'on clause'
+2025-07-28 21:14:21 [INFO]: [0mGET /estacion/lista [31m500[0m 44.882 ms - 126[0m
+2025-07-28 21:17:11 [INFO]: [0mGET /ruta/lista [32m200[0m 5.730 ms - 2[0m
+2025-07-28 21:27:53 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:27:53 [INFO]: Base de datos conectada
+2025-07-28 21:27:53 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:27:53 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:27:53 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:27:56 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:29:07 [INFO]: El servidor está escuchando en el puerto 8888
+2025-07-28 21:29:07 [INFO]: Base de datos conectada
+2025-07-28 21:29:07 [INFO]: ✅ Mongoose conectado a MongoDB en: localhost
+2025-07-28 21:29:07 [INFO]: 🚀 MongoDB conectado correctamente
+2025-07-28 21:29:07 [INFO]: Conexión establecida con la base de datos
+2025-07-28 21:29:10 [INFO]: Base de Datos sincronizadas
+2025-07-28 21:33:42 [INFO]: [0mPOST /auth/register [32m201[0m 241.254 ms - 202[0m
+2025-07-28 21:34:30 [INFO]: [0mPOST /auth/login [32m200[0m 141.108 ms - 196[0m
